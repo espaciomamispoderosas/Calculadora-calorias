@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Calorías - Harris-Benedict para Mujeres</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .results {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-item h3 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+
+        .result-item .value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .explanation {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .explanation h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .explanation p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .objectives {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .objective-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid;
+        }
+
+        .objective-card.deficit {
+            border-left-color: #e74c3c;
+        }
+
+        .objective-card.maintenance {
+            border-left-color: #f39c12;
+        }
+
+        .objective-card.surplus {
+            border-left-color: #27ae60;
+        }
+
+        .objective-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .objective-card .calories {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔥 Calculadora de Calorías</h1>
+            <p>Método Harris-Benedict para Mujeres</p>
+        </div>
+
+        <div class="form-section">
+            <form id="calorieForm">
+                <div class="form-group">
+                    <label for="age">Edad (años):</label>
+                    <input type="number" id="age" min="15" max="80" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="weight">Peso (kg):</label>
+                    <input type="number" id="weight" min="35" max="200" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="height">Estatura (cm):</label>
+                    <input type="number" id="height" min="140" max="200" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="activity">Nivel de Actividad Física:</label>
+                    <select id="activity" required>
+                        <option value="">Selecciona tu nivel de actividad</option>
+                        <option value="1.2">Sedentaria (poco o nada de ejercicio)</option>
+                        <option value="1.375">Ligeramente activa (ejercicio ligero 1-3 días/semana)</option>
+                        <option value="1.55">Moderadamente activa (ejercicio moderado 3-5 días/semana)</option>
+                        <option value="1.725">Muy activa (ejercicio intenso 6-7 días/semana)</option>
+                        <option value="1.9">Extremadamente activa (ejercicio muy intenso, trabajo físico)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="calculate-btn">
+                    ✨ Calcular Mis Calorías
+                </button>
+            </form>
+
+            <div id="results" class="results">
+                <div class="result-item">
+                    <h3>🔥 Tasa Metabólica Basal (TMB)</h3>
+                    <div class="value" id="bmr">-</div>
+                    <p>Calorías que tu cuerpo necesita en reposo absoluto</p>
+                </div>
+
+                <div class="result-item">
+                    <h3>⚡ Gasto Energético Total Diario (GETD)</h3>
+                    <div class="value" id="tdee">-</div>
+                    <p>Calorías totales considerando tu actividad física</p>
+                </div>
+            </div>
+
+            <div id="explanation" class="explanation" style="display: none;">
+                <h3>📚 Explicación de los Cálculos</h3>
+                
+                <p><strong>Tasa Metabólica Basal (TMB):</strong> Se calculó usando la fórmula Harris-Benedict revisada para mujeres:</p>
+                <p><em>TMB = 447.593 + (9.247 × peso en kg) + (3.098 × altura en cm) - (4.330 × edad en años)</em></p>
+                
+                <p><strong>Gasto Energético Total Diario (GETD):</strong> Se obtiene multiplicando la TMB por el factor de actividad física que seleccionaste. Este representa las calorías que necesitas para mantener tu peso actual.</p>
+
+                <h3>🎯 Ajuste Según Tus Objetivos</h3>
+                
+                <div class="objectives">
+                    <div class="objective-card deficit">
+                        <h4>🔥 Pérdida de Grasa</h4>
+                        <div class="calories" id="deficit-calories">-</div>
+                        <p>Déficit calórico del 15-25%. Combina con entrenamiento de fuerza para preservar masa muscular.</p>
+                    </div>
+
+                    <div class="objective-card maintenance">
+                        <h4>⚖️ Mantenimiento</h4>
+                        <div class="calories" id="maintenance-calories">-</div>
+                        <p>Consume exactamente tu GETD para mantener tu peso y composición corporal actual.</p>
+                    </div>
+
+                    <div class="objective-card surplus">
+                        <h4>💪 Ganancia Muscular</h4>
+                        <div class="calories" id="surplus-calories">-</div>
+                        <p>Superávit calórico del 10-15%. Esencial combinar con entrenamiento de fuerza progresivo.</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 25px;"><strong>💡 Recomendación:</strong> Estos cálculos son estimaciones. Monitorea tu peso y composición corporal semanalmente y ajusta las calorías según tus resultados. Para cambios en composición corporal, el entrenamiento de fuerza es fundamental.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calorieForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const age = parseFloat(document.getElementById('age').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const activityFactor = parseFloat(document.getElementById('activity').value);
+            
+            // Fórmula Harris-Benedict revisada para mujeres
+            const bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+            
+            // Gasto Energético Total Diario
+            const tdee = bmr * activityFactor;
+            
+            // Objetivos
+            const deficitCalories = tdee * 0.8; // -20% para pérdida de grasa
+            const maintenanceCalories = tdee;
+            const surplusCalories = tdee * 1.12; // +12% para ganancia muscular
+            
+            // Mostrar resultados
+            document.getElementById('bmr').textContent = Math.round(bmr) + ' kcal/día';
+            document.getElementById('tdee').textContent = Math.round(tdee) + ' kcal/día';
+            
+            document.getElementById('deficit-calories').textContent = Math.round(deficitCalories) + ' kcal/día';
+            document.getElementById('maintenance-calories').textContent = Math.round(maintenanceCalories) + ' kcal/día';
+            document.getElementById('surplus-calories').textContent = Math.round(surplusCalories) + ' kcal/día';
+            
+            // Mostrar secciones
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('explanation').style.display = 'block';
+            
+            // Scroll suave a los resultados
+            document.getElementById('results').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    </script>
+</body>
+</html>
