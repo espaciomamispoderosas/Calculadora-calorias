@@ -26,6 +26,26 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            position: relative;
+        }
+
+        .container::before {
+            content: '@espaciomamispoderosas';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 3em;
+            color: rgba(191, 216, 198, 0.08);
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .form-section,
+        .header {
+            position: relative;
+            z-index: 1;
         }
 
         .header {
@@ -237,6 +257,7 @@
         <div class="header">
             <h1>🔥 Calculadora de Calorías</h1>
             <p>Método Harris-Benedict para Mujeres</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">📱 @espaciomamispoderosas</p>
         </div>
 
         <div class="form-section">
@@ -366,6 +387,12 @@
                     <p style="margin-bottom: 8px;"><strong>Mantenimiento:</strong> 1.4g proteína/kg • 1g grasa/kg • Resto en carbohidratos</p>
                     <p style="margin-bottom: 8px;"><strong>Pérdida de grasa:</strong> 1.8g proteína/kg • 0.8g grasa/kg • Resto en carbohidratos</p>
                     <p style="margin-bottom: 0;"><strong>Ganancia muscular:</strong> 2g proteína/kg • 1.2g grasa/kg • Resto en carbohidratos</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(203, 168, 191, 0.1); border-radius: 10px;">
+                    <p style="margin-bottom: 5px; color: #000000;">✨ <strong>Sígueme en Instagram para más contenido</strong> ✨</p>
+                    <p style="font-size: 1.2em; font-weight: bold; color: #cba8bf;">📱 @espaciomamispoderosas</p>
+                    <p style="margin-top: 8px; font-size: 0.9em; opacity: 0.8;">Tips de nutrición, ejercicio y bienestar</p>
                 </div>
             </div>
         </div>
