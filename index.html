@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #cba8bf;
             min-height: 100vh;
             padding: 20px;
         }
@@ -21,7 +21,7 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: #ffffff;
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -29,8 +29,8 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            color: white;
+            background: #bfd8c6;
+            color: #000000;
             padding: 30px;
             text-align: center;
         }
@@ -43,7 +43,7 @@
 
         .header p {
             font-size: 1.1em;
-            opacity: 0.9;
+            opacity: 0.7;
         }
 
         .form-section {
@@ -58,7 +58,7 @@
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #333;
+            color: #000000;
             font-size: 1.1em;
         }
 
@@ -66,19 +66,19 @@
         .form-group select {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e1e8ed;
+            border: 2px solid #bfd8c6;
             border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s ease;
-            background: white;
+            background: #ffffff;
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #bfd8c6;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 8px 25px rgba(191, 216, 198, 0.15);
         }
 
         .activity-grid {
@@ -91,8 +91,8 @@
         .calculate-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: #bfd8c6;
+            color: #000000;
             border: none;
             border-radius: 12px;
             font-size: 1.2em;
@@ -104,12 +104,13 @@
 
         .calculate-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 15px 35px rgba(191, 216, 198, 0.4);
+            background: #a8c9b0;
         }
 
         .results {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+            background: #bfd8c6;
+            color: #000000;
             padding: 30px;
             margin-top: 20px;
             border-radius: 15px;
@@ -117,7 +118,7 @@
         }
 
         .result-item {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 15px;
@@ -136,21 +137,21 @@
         }
 
         .explanation {
-            background: #f8f9fa;
+            background: #ffffff;
             padding: 30px;
             border-radius: 15px;
             margin-top: 20px;
-            border-left: 5px solid #667eea;
+            border-left: 5px solid #bfd8c6;
         }
 
         .explanation h3 {
-            color: #333;
+            color: #000000;
             margin-bottom: 15px;
             font-size: 1.4em;
         }
 
         .explanation p {
-            color: #666;
+            color: #000000;
             line-height: 1.6;
             margin-bottom: 15px;
         }
@@ -163,7 +164,7 @@
         }
 
         .objective-card {
-            background: white;
+            background: #ffffff;
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -171,15 +172,15 @@
         }
 
         .objective-card.deficit {
-            border-left-color: #e74c3c;
+            border-left-color: #bfd8c6;
         }
 
         .objective-card.maintenance {
-            border-left-color: #f39c12;
+            border-left-color: #bfd8c6;
         }
 
         .objective-card.surplus {
-            border-left-color: #27ae60;
+            border-left-color: #bfd8c6;
         }
 
         .objective-card h4 {
@@ -213,7 +214,7 @@
 
         .macro-item span:last-child {
             font-weight: bold;
-            color: #333;
+            color: #000000;
         }
 
         @media (max-width: 768px) {
@@ -360,8 +361,8 @@
 
                 <p style="margin-top: 25px;"><strong>💡 Recomendación:</strong> Estos cálculos son estimaciones. Monitorea tu peso y composición corporal semanalmente y ajusta las calorías según tus resultados. Para cambios en composición corporal, el entrenamiento de fuerza es fundamental.</p>
 
-                <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
-                    <h4 style="color: #667eea; margin-bottom: 10px;">📊 Distribución de Macronutrientes:</h4>
+                <div style="background: rgba(191, 216, 198, 0.15); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <h4 style="color: #000000; margin-bottom: 10px;">📊 Distribución de Macronutrientes:</h4>
                     <p style="margin-bottom: 8px;"><strong>Mantenimiento:</strong> 1.4g proteína/kg • 1g grasa/kg • Resto en carbohidratos</p>
                     <p style="margin-bottom: 8px;"><strong>Pérdida de grasa:</strong> 1.8g proteína/kg • 0.8g grasa/kg • Resto en carbohidratos</p>
                     <p style="margin-bottom: 0;"><strong>Ganancia muscular:</strong> 2g proteína/kg • 1.2g grasa/kg • Resto en carbohidratos</p>
