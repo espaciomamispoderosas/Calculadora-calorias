@@ -190,7 +190,30 @@
         .objective-card .calories {
             font-size: 1.5em;
             font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .macros {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .macro-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .macro-label {
+            font-weight: 600;
+        }
+
+        .macro-item span:last-child {
+            font-weight: bold;
+            color: #333;
         }
 
         @media (max-width: 768px) {
@@ -277,23 +300,72 @@
                     <div class="objective-card deficit">
                         <h4>🔥 Pérdida de Grasa</h4>
                         <div class="calories" id="deficit-calories">-</div>
-                        <p>Déficit calórico del 15-25%. Combina con entrenamiento de fuerza para preservar masa muscular.</p>
+                        <div class="macros">
+                            <div class="macro-item">
+                                <span class="macro-label">🥩 Proteína:</span>
+                                <span id="deficit-protein">-</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">🥑 Grasas:</span>
+                                <span id="deficit-fat">-</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">🍞 Carbohidratos:</span>
+                                <span id="deficit-carbs">-</span>
+                            </div>
+                        </div>
+                        <p>Déficit calórico del 20%. Mayor proteína para preservar masa muscular.</p>
                     </div>
 
                     <div class="objective-card maintenance">
                         <h4>⚖️ Mantenimiento</h4>
                         <div class="calories" id="maintenance-calories">-</div>
-                        <p>Consume exactamente tu GETD para mantener tu peso y composición corporal actual.</p>
+                        <div class="macros">
+                            <div class="macro-item">
+                                <span class="macro-label">🥩 Proteína:</span>
+                                <span id="maintenance-protein">-</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">🥑 Grasas:</span>
+                                <span id="maintenance-fat">-</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">🍞 Carbohidratos:</span>
+                                <span id="maintenance-carbs">-</span>
+                            </div>
+                        </div>
+                        <p>Distribución equilibrada para mantener peso y composición corporal.</p>
                     </div>
 
                     <div class="objective-card surplus">
                         <h4>💪 Ganancia Muscular</h4>
                         <div class="calories" id="surplus-calories">-</div>
-                        <p>Superávit calórico del 10-15%. Esencial combinar con entrenamiento de fuerza progresivo.</p>
+                        <div class="macros">
+                            <div class="macro-item">
+                                <span class="macro-label">🥩 Proteína:</span>
+                                <span id="surplus-protein">-</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">🥑 Grasas:</span>
+                                <span id="surplus-fat">-</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">🍞 Carbohidratos:</span>
+                                <span id="surplus-carbs">-</span>
+                            </div>
+                        </div>
+                        <p>Superávit calórico del 12% con alta proteína para síntesis muscular.</p>
                     </div>
                 </div>
 
                 <p style="margin-top: 25px;"><strong>💡 Recomendación:</strong> Estos cálculos son estimaciones. Monitorea tu peso y composición corporal semanalmente y ajusta las calorías según tus resultados. Para cambios en composición corporal, el entrenamiento de fuerza es fundamental.</p>
+
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <h4 style="color: #667eea; margin-bottom: 10px;">📊 Distribución de Macronutrientes:</h4>
+                    <p style="margin-bottom: 8px;"><strong>Mantenimiento:</strong> 1.4g proteína/kg • 1g grasa/kg • Resto en carbohidratos</p>
+                    <p style="margin-bottom: 8px;"><strong>Pérdida de grasa:</strong> 1.8g proteína/kg • 0.8g grasa/kg • Resto en carbohidratos</p>
+                    <p style="margin-bottom: 0;"><strong>Ganancia muscular:</strong> 2g proteína/kg • 1.2g grasa/kg • Resto en carbohidratos</p>
+                </div>
             </div>
         </div>
     </div>
@@ -318,13 +390,54 @@
             const maintenanceCalories = tdee;
             const surplusCalories = tdee * 1.12; // +12% para ganancia muscular
             
+            // Función para calcular macronutrientes
+            function calculateMacros(calories, proteinPerKg, fatPerKg, weight) {
+                const protein = proteinPerKg * weight;
+                const fat = fatPerKg * weight;
+                
+                // Calorías de proteína y grasa
+                const proteinCalories = protein * 4;
+                const fatCalories = fat * 9;
+                
+                // Calorías restantes para carbohidratos
+                const carbCalories = calories - proteinCalories - fatCalories;
+                const carbs = carbCalories / 4;
+                
+                return {
+                    protein: Math.round(protein),
+                    fat: Math.round(fat),
+                    carbs: Math.max(0, Math.round(carbs)) // Asegurar que no sea negativo
+                };
+            }
+            
+            // Calcular macros para cada objetivo
+            const deficitMacros = calculateMacros(deficitCalories, 1.8, 0.8, weight);
+            const maintenanceMacros = calculateMacros(maintenanceCalories, 1.4, 1.0, weight);
+            const surplusMacros = calculateMacros(surplusCalories, 2.0, 1.2, weight);
+            
             // Mostrar resultados
             document.getElementById('bmr').textContent = Math.round(bmr) + ' kcal/día';
             document.getElementById('tdee').textContent = Math.round(tdee) + ' kcal/día';
             
+            // Calorías
             document.getElementById('deficit-calories').textContent = Math.round(deficitCalories) + ' kcal/día';
             document.getElementById('maintenance-calories').textContent = Math.round(maintenanceCalories) + ' kcal/día';
             document.getElementById('surplus-calories').textContent = Math.round(surplusCalories) + ' kcal/día';
+            
+            // Macronutrientes - Pérdida de grasa
+            document.getElementById('deficit-protein').textContent = deficitMacros.protein + 'g';
+            document.getElementById('deficit-fat').textContent = deficitMacros.fat + 'g';
+            document.getElementById('deficit-carbs').textContent = deficitMacros.carbs + 'g';
+            
+            // Macronutrientes - Mantenimiento
+            document.getElementById('maintenance-protein').textContent = maintenanceMacros.protein + 'g';
+            document.getElementById('maintenance-fat').textContent = maintenanceMacros.fat + 'g';
+            document.getElementById('maintenance-carbs').textContent = maintenanceMacros.carbs + 'g';
+            
+            // Macronutrientes - Ganancia muscular
+            document.getElementById('surplus-protein').textContent = surplusMacros.protein + 'g';
+            document.getElementById('surplus-fat').textContent = surplusMacros.fat + 'g';
+            document.getElementById('surplus-carbs').textContent = surplusMacros.carbs + 'g';
             
             // Mostrar secciones
             document.getElementById('results').style.display = 'block';
